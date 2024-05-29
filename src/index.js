@@ -2,6 +2,7 @@ require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
 const WebSocket = require("ws")
 const http = require("http");
 const app = require("./app");
+const getResponse = require("./getChatGPTresponse");
 
 const BACKEND_PORT = process.env.BACKEND_PORT || 9000;
 const NODE_ENV = process.env.NODE_ENV || "development";
@@ -43,7 +44,7 @@ webServer.listen(BACKEND_PORT, async () => {
 
     socket.onopen = function (e) {
       console.log("connected")
-      sendMessage("The BOT is LIVE", socket)
+      // sendMessage("The BOT is LIVE")
     }
 
     socket.onmessage = async function (event) {
@@ -54,11 +55,12 @@ webServer.listen(BACKEND_PORT, async () => {
         const user = payload.user
         const channel = payload.channel
         var text = payload.text.split(" ")
-        text[0] = "<@" + user + ">"
-        text = text.join(" ")
-        console.log(text)
-        sendMessage(text)
-        console.log(payload)
+        text[0] = ""
+        const aiResult = await getResponse(text.join(" "))
+        const aiMessage = "<@" + user + "> \n"+ aiResult
+        // text = text.join(" ")
+        // console.log(text)
+        sendMessage(aiMessage)
       }
 
       if (data.type === "hello") {
