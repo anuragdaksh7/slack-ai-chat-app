@@ -30,7 +30,7 @@ app.use(
 
 app.get("/", (_, res) => {
   try {
-    logger.log({
+    console.log({
       level: "info",
       message: "Welcome to the slack chatgpt backend!",
       meta: {
@@ -40,7 +40,7 @@ app.get("/", (_, res) => {
     });
     res.status(200).send("Welcome to the slack chatgpt backend!");
   } catch (error) {
-    logger.error(`Error in getting root: ${error.message}`, error);
+    console.log(`Error in getting root: ${error.message}`, error);
     res.status(500).send("Internal Server Error");
   }
 });
