@@ -19,14 +19,6 @@ app.use(
   })
 );
 
-// helpers
-// const { logger } = require("./helpers/winston");
-
-// routes imports
-// const v1Routes = require("./routes/v1");
-
-// routes
-// app.use("/v1", v1Routes);
 
 app.get("/", (_, res) => {
   try {
